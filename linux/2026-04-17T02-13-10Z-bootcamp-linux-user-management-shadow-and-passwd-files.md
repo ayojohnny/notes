@@ -24,3 +24,21 @@ If user's shell (slot 7) is `/nologin` or `/false`, it means that user account c
 Fields 3-7 are related to password metadata such as: expiratino date, last password change, password age, etc.
 
 If a password field has `*` or `!`, user cannot connect to system using **password authentication**.
+
+Password format: `$type$salt$hash`
+
+`$6$jLA.lowWm1ugywTJ$<password>`
+
+$type:
+1 -> MD5
+2a -> blowfish
+2y -> eksblowfish
+5  -> SHA-256
+6  -> SHA-512
+
+Salt:
+- combined with password to enforce unique password
+- mitigates attacks like rainbow tables
+
+`/etc/passwd` and `/etc/shadow` should not be manually edited let the system-level commands for user management
+modify these files (i.e. useradd, userdel, etc.)
