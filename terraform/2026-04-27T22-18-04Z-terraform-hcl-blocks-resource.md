@@ -34,3 +34,24 @@ resource "aws_route_table" "public_route_table" {
     }
 }
 ```
+
+```terraform
+# Using random number to make globally unique S3 buckets.
+resource "aws_s3_bucket" "my_bucket" {
+    bucket = "my-globally-unqiue-bucket-${random_id.randomness.hex}"
+    
+    tags = {
+        Name = "My S3 Bucket"
+        Purpise = "Testing TF + S3 buckets"
+    }
+}
+
+resource "aws_s3_bucket_acl" "my_new_bucket_acl" {
+    bucket = aws_s3_bucket.my_bucket.id
+    acl = "private"
+}
+
+random "random_id" "randomness" {
+    byte_length = 16
+}
+```
